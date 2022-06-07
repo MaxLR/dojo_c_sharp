@@ -40,6 +40,33 @@
       /** @type {ListNode|null} */
       this.head = null;
     }
+
+    /**
+     * Creates a new node with the given data and inserts that node at the front
+     * of this list.
+     * - Time: (?).
+     * - Space: (?).
+     * @param {any} data The data for the new node.
+     * @returns {SinglyLinkedList} This list.
+     */
+    insertAtFront(data) {}
+
+    /**
+     * Removes the first node of this list.
+     * - Time: (?).
+     * - Space: (?).
+     * @returns {any} The data from the removed node.
+     */
+    removeHead() {}
+
+    // EXTRA
+    /**
+     * Calculates the average of this list.
+     * - Time: (?).
+     * - Space: (?).
+     * @returns {number|NaN} The average of the node's data.
+     */
+    average() {}
   
     /**
      * Determines if this list is empty.
@@ -47,7 +74,9 @@
      * - Space: O(?).
      * @returns {boolean}
      */
-    isEmpty() {}
+    isEmpty() {
+      return this.head === null;
+    }
   
     /**
      * Creates a new node with the given data and inserts it at the back of
@@ -57,7 +86,23 @@
      * @param {any} data The data to be added to the new node.
      * @returns {SinglyLinkedList} This list.
      */
-    insertAtBack(data) {}
+    insertAtBack(data) {
+      const newBack = new ListNode(data);
+
+      if (this.isEmpty()) {
+        this.head = newBack;
+        return this;
+      }
+
+      let runner = this.head;
+
+      while (runner.next !== null) {
+        runner = runner.next;
+      }
+
+      runner.next = newBack;
+      return this;
+    }
   
     /**
      * Creates a new node with the given data and inserts it at the back of
@@ -69,7 +114,32 @@
      *    or null when the end of the list has been reached.
      * @returns {SinglyLinkedList} This list.
      */
-    insertAtBackRecursive(data, runner = this.head) {}
+    insertAtBackRecursive(data, runner = this.head) {
+      if (this.isEmpty()) {
+        this.head = new ListNode(data);
+        return this;
+      }
+  
+      if (runner.next === null) {
+        runner.next = new ListNode(data);
+        return this;
+      }
+      return this.insertAtBackRecursive(data, runner.next);
+    }
+  
+    /**
+     * Calls insertAtBack on each item of the given array.
+     * - Time: O(n * m) n = list length, m = arr.length.
+     * - Space: O(1) constant.
+     * @param {Array<any>} vals The data for each new node.
+     * @returns {SinglyLinkedList} This list.
+     */
+    insertAtBackMany(vals) {
+      for (const item of vals) {
+        this.insertAtBack(item);
+      }
+      return this;
+    }
   
     /**
      * Calls insertAtBack on each item of the given array.
