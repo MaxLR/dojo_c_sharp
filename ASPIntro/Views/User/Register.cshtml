@@ -1,0 +1,18 @@
+<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x' crossorigin='anonymous'>
+
+@model ASPIntro.Models.User
+
+<h2>Register</h2>
+
+<form action="/users/submit" method="post">
+    <div>
+        <label>First Name</label>
+        @* The name attribute in our input NEEDS to match with a property from our ViewModel *@
+        <input type="text" name="FirstName">
+    </div>
+    <div>
+        <label>Last Name</label>
+        <input type="text" name="LastName">
+    </div>
+    <input class="btn-confirm" type="submit" value="Create User">
+</form>

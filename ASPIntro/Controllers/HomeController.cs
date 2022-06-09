@@ -1,4 +1,7 @@
+using ASPIntro.Models;
 using Microsoft.AspNetCore.Mvc;
+
+namespace ASPIntro.Controllers;
 
 public class HomeController : Controller
 {
@@ -17,15 +20,8 @@ public class HomeController : Controller
     [HttpGet("/videos")]
     public ViewResult Videos()
     {
-        List<string> youtubeVideoIds = new List<string>()
-        {
-            "yT3_vLQ3jbM", "fbqHK8i-HdA", "CUe2ymg1RHs", "-rEIOkGCbo8", "KYgZPphIKQY", "GPdGeLAprdg", "eg9_ymCEAF8", "nHkUMkUFuBc", "QTwcvNdMFMI", "j6YK-qgt_TI", "Wvjsgb2nB4o", "GcKkiRl9_qE", "6avJHaC3C2U", "_mZBa3sqTrI", "i_HaMlLJ7Jk", "32I0Qso4sDg"
-        };
-
-        ViewBag.YoutubeVideoIds = youtubeVideoIds;
-        ViewBag.Title = $"Here are {ViewBag.YoutubeVideoIds.Count} of my favorite videos!";
-
-        return View("Videos");
+        VideosView videoViewModel = new VideosView();
+        return View("Videos", videoViewModel);
     }
 
     [HttpGet("{**path}")]
