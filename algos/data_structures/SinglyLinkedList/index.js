@@ -42,13 +42,58 @@
     }
 
     /**
+     * Concatenates the nodes of a given list onto the back of this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {SinglyLinkedList} addList An instance of a different list whose
+     *    whose nodes will be added to the back of this list.
+     * @returns {SinglyLinkedList} This list with the added nodes.
+     */
+    concat(addList) {}
+
+    /**
+      * Finds the node with the smallest data and moves that node to the front of
+      * this list.
+      * - Time: O(?).
+      * - Space: O(?).
+      * @returns {SinglyLinkedList} This list.
+      */
+    moveMinToFront() {}
+    
+    // EXTRA
+    /**
+      * Splits this list into two lists where the 2nd list starts with the node
+      * that has the given value.
+      * splitOnVal(5) for the list (1=>3=>5=>2=>4) will change list to (1=>3)
+      * and the return value will be a new list containing (5=>2=>4)
+      * - Time: O(?).
+      * - Space: O(?).
+      * @param {any} val The value in the node that the list should be split on.
+      * @returns {SinglyLinkedList} The split list containing the nodes that are
+      *    no longer in this list.
+      */
+    splitOnVal(val) {}
+
+    /**
      * Retrieves the data of the second to last node in this list.
      * - Time: O(?).
      * - Space: O(?).
      * @returns {any} The data of the second to last node or null if there is no
      *    second to last node.
      */
-    secondToLast() {}
+    secondToLast() {
+      if (!this.head || !this.head.next) {
+        return null;
+      }
+  
+      // There are at least 2 nodes since the above return hasn't happened.
+      let runner = this.head;
+  
+      while (runner.next.next) {
+        runner = runner.next;
+      }
+      return runner.data;
+    }
 
     /**
      * Removes the node that has the matching given val as it's data.
@@ -58,7 +103,27 @@
      *    node to be removed.
      * @returns {boolean} Indicates if a node was removed or not.
      */
-    removeVal(val) {}
+    removeVal(val) {
+      if (this.isEmpty()) {
+        return false;
+      }
+  
+      if (this.head.data === val) {
+        this.removeHead();
+        return true;
+      }
+  
+      let runner = this.head;
+  
+      while (runner.next) {
+        if (runner.next.data === val) {
+          runner.next = runner.next.next;
+          return true;
+        }
+        runner = runner.next;
+      }
+      return false;
+    }
 
     // EXTRA
     /**
