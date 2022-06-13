@@ -112,7 +112,7 @@ oneNodeTree.root = new BSTNode(10);
         root
       10
     /   \
-    5     15
+   5     15
 */
 const twoLevelTree = new BinarySearchTree();
 twoLevelTree.root = new BSTNode(10);
@@ -123,7 +123,7 @@ twoLevelTree.root.right = new BSTNode(15);
         root
       10
     /   \
-    5     15
+  5     15
 / \    / \
 2   6  13  
 */
@@ -137,13 +137,13 @@ threeLevelTree.root.right.left = new BSTNode(13);
 
 /* fullTree
                     root
-                <-- 25 -->
+               <-- 25 -->
             /            \
-            15             50
+          15             50
         /    \         /    \
-        10     22    35     70
+      10     22      35     70
     /   \   /  \    /  \   /  \
-    4    12  18  24  31  44 66  90
+   4    12  18  24  31  44 66  90
 */
 /***************** Uncomment after insert method is created. ****************/
 // const fullTree = new BinarySearchTree();
