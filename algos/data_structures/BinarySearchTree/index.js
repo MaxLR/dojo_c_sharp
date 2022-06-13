@@ -110,7 +110,7 @@ oneNodeTree.root = new BSTNode(10);
   
 /* twoLevelTree
         root
-        10
+      10
     /   \
     5     15
 */
@@ -121,7 +121,7 @@ twoLevelTree.root.right = new BSTNode(15);
 
 /* threeLevelTree 
         root
-        10
+      10
     /   \
     5     15
 / \    / \
@@ -141,7 +141,7 @@ threeLevelTree.root.right.left = new BSTNode(13);
             /            \
             15             50
         /    \         /    \
-        10     22      35     70
+        10     22    35     70
     /   \   /  \    /  \   /  \
     4    12  18  24  31  44 66  90
 */
