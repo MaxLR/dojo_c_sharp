@@ -37,6 +37,34 @@ class BinarySearchTree {
        */
       this.root = null;
     }
+
+    /**
+     * Determines if this tree contains the given searchVal.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {number} searchVal The number to search for in the node's data.
+     * @returns {boolean} Indicates if the searchVal was found.
+     */
+    contains(searchVal) {}
+
+    /**
+     * Determines if this tree contains the given searchVal.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {number} searchVal The number to search for in the node's data.
+     * @returns {boolean} Indicates if the searchVal was found.
+     */
+    containsRecursive(searchVal, current = this.root) {}
+
+    /**
+     * Calculates the range (max - min) from the given startNode.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {Node} startNode The node to start from to calculate the range.
+     * @returns {number|null} The range of this tree or a sub tree depending on if the
+     *    startNode is the root or not.
+     */
+    range(startNode = this.root) {}
   
     /**
      * Determines if this tree is empty.
@@ -44,7 +72,9 @@ class BinarySearchTree {
      * - Space: O(?).
      * @returns {boolean} Indicates if this tree is empty.
      */
-    isEmpty() {}
+    isEmpty() {
+      return this.root === null;
+    }
   
     /**
      * Retrieves the smallest integer data from this tree.
@@ -54,7 +84,16 @@ class BinarySearchTree {
      *    the tree is being traversed.
      * @returns {number} The smallest integer from this tree.
      */
-    min(current = this.root) {}
+    min(current = this.root) {
+      if (current === null) {
+        return null;
+      }
+  
+      while (current.left) {
+        current = current.left;
+      }
+      return current.data;
+    }
   
     /**
      * Retrieves the smallest integer data from this tree.
@@ -64,7 +103,16 @@ class BinarySearchTree {
      *    the tree is being traversed.
      * @returns {number} The smallest integer from this tree.
      */
-    minRecursive(current = this.root) {}
+    minRecursive(current = this.root) {
+      if (current === null) {
+        return null;
+      }
+  
+      if (current.left === null) {
+        return current.data;
+      }
+      return this.minRecursive(current.left);
+    }
   
     /**
      * Retrieves the largest integer data from this tree.
@@ -74,7 +122,16 @@ class BinarySearchTree {
      *    the tree is being traversed.
      * @returns {number} The largest integer from this tree.
      */
-    max(current = this.root) {}
+    max(current = this.root) {
+      if (current === null) {
+        return null;
+      }
+  
+      while (current.right) {
+        current = current.right;
+      }
+      return current.data;
+    }
   
     /**
      * Retrieves the largest integer data from this tree.
@@ -84,7 +141,16 @@ class BinarySearchTree {
      *    the tree is being traversed.
      * @returns {number} The largest integer from this tree.
      */
-    maxRecursive(current = this.root) {}
+    maxRecursive(current = this.root) {
+      if (current === null) {
+        return null;
+      }
+  
+      if (current.right === null) {
+        return current.data;
+      }
+      return this.maxRecursive(current.right);
+    }
   
     // Logs this tree horizontally with the root on the left.
     print(node = this.root, spaceCnt = 0, spaceIncr = 10) {
