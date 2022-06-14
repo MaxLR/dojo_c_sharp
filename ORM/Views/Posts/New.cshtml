@@ -1,0 +1,26 @@
+@model Post
+
+<h1>New Post</h1>
+
+<form asp-controller="Posts" asp-action="Create" method="POST">
+    <div class="mb-3">
+      <label asp-for="Topic"></label>
+      <span asp-validation-for="Topic" class="text-danger font-weight-bold">
+      </span>
+      <input class="form-control" asp-for="Topic">
+    </div>
+    <div class="mb-3">
+      <label asp-for="Body"></label>
+      <span asp-validation-for="Body" class="text-danger font-weight-bold">
+      </span>
+      <input class="form-control" asp-for="Body">
+    </div>
+    <div class="mb-3">
+      <label asp-for="ImgUrl"></label>
+      <span asp-validation-for="ImgUrl" class="text-danger font-weight-bold">
+      </span>
+      <input class="form-control" asp-for="ImgUrl">
+    </div>
+
+    <input type="submit" value="Create a new Post!">
+</form>

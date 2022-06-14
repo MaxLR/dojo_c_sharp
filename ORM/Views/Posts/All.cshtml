@@ -1,0 +1,22 @@
+@* 
+    @model lower m to specify the TYPE of data that is being used for the ViewModel
+    @Model capital m is used to access the DATA inside of the object passed into the page
+*@
+
+
+@model List<Post>
+
+
+<h1>All Posts</h1>
+
+@foreach (Post post in Model)
+{
+    <h3>@post.Topic</h3>
+    <br>
+    <p>@post.Body</p>
+
+    if (post.ImgUrl != null)
+    {
+        <img src="@post.ImgUrl"/>
+    }
+}
