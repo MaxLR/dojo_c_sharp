@@ -1,0 +1,22 @@
+@model Post
+
+<h1>@Model.Topic</h1>
+
+<p>@Model.Body</p>
+<br>
+
+<a
+asp-controller="Posts"
+asp-action="Edit"
+asp-route-postId="@Model.PostId"
+>Edit</a>
+
+<br>
+<form 
+asp-controller="Posts" 
+asp-action="Delete" 
+asp-route-postId="@Model.PostId" 
+method="POST"
+>
+    <button>Delete</button>
+</form>

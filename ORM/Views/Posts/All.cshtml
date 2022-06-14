@@ -19,4 +19,15 @@
     {
         <img src="@post.ImgUrl"/>
     }
+
+    @* asp-route-paramName=@paramValue: paramName can be whatever you want
+        but it NEEDS to match up w/ parameters in route & method in the controller
+    *@
+    <a
+    asp-controller="Posts"
+    asp-action="Details"
+    asp-route-postID="@post.PostId"
+    >
+    View Details
+    </a>
 }
