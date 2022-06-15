@@ -6,6 +6,22 @@ public class PostsController : Controller
 {
     private ORMContext _context;
 
+    private int? uid
+    {
+        get
+        {
+            return HttpContext.Session.GetInt32("UUID");
+        }
+    }
+
+    private bool loggedIn
+    {
+        get
+        {
+            return uid != null;
+        }
+    }
+
     public PostsController(ORMContext context)
     {
         _context = context;
@@ -14,6 +30,10 @@ public class PostsController : Controller
     [HttpGet("/posts/new")]
     public IActionResult New()
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("LoginReg", "Users");
+        }
         return View("New");
     }
 

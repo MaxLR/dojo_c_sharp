@@ -6,6 +6,9 @@
 
 @model List<Post>
 
+@Context.Session.GetInt32("UUID")
+
+<partial name="_Logout"></partial>
 
 <h1>All Posts</h1>
 

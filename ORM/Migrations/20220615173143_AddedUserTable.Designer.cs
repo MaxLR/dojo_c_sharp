@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ORM.Models;
 
@@ -10,9 +11,10 @@ using ORM.Models;
 namespace ORM.Migrations
 {
     [DbContext(typeof(ORMContext))]
-    partial class ORMContextModelSnapshot : ModelSnapshot
+    [Migration("20220615173143_AddedUserTable")]
+    partial class AddedUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
