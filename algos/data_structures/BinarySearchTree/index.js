@@ -47,7 +47,14 @@ class BinarySearchTree {
      * @param {Array<number>} vals The data that has been visited so far.
      * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
      */
-    toArrPreorder(node = this.root, vals = []) {}
+    toArrPreorder(node = this.root, vals = []) {
+      if (node) {
+        vals.push(node.data);
+        this.toArrPreorder(node.left, vals);
+        this.toArrPreorder(node.right, vals);
+      }
+      return vals;
+    }
 
     /**
      * DFS Inorder: (Left, CurrNode, Right)
