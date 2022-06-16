@@ -22,4 +22,7 @@ public class Post
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+    public int UserId { get; set; } //this FK must match the PK prop name
+    public User? Author { get; set; } //one user related to each individual post
 }

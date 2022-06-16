@@ -1,0 +1,20 @@
+@model User
+
+<h1>@Model.Username's Posts:</h1>
+
+@{if (Model.Posts.Count == 0)
+{
+    <h3>You haven't created any posts!</h3>
+}
+else
+{
+    <h3>You have created @Model.Posts.Count posts! Wow</h3>
+
+    @foreach (Post post in @Model.Posts)
+    {
+        <p>@post.Topic</p>
+        <p>@post.Body</p>
+    }
+}
+
+}

@@ -23,6 +23,8 @@
         <img src="@post.ImgUrl"/>
     }
 
+    <p>Created by: @post.Author.Username</p>
+
     @* asp-route-paramName=@paramValue: paramName can be whatever you want
         but it NEEDS to match up w/ parameters in route & method in the controller
     *@
@@ -34,3 +36,9 @@
     View Details
     </a>
 }
+
+
+@{
+    Post newPost = new Post();
+}
+<partial name="_New" model="@newPost"></partial>

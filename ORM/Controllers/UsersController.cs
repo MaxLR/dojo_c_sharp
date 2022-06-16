@@ -12,6 +12,7 @@ public class UsersController : Controller
         _context = context;
     }
 
+
     [HttpGet("/registration")]
     public IActionResult LoginReg()
     {

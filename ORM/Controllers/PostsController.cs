@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ORM.Models;
 
 
@@ -27,6 +28,25 @@ public class PostsController : Controller
         _context = context;
     }
 
+    [HttpGet("/logged_in_posts")]
+    public IActionResult LoggedInPosts()
+    {
+        if (uid == null)
+        {
+            return RedirectToAction("LoginReg", "Users");
+        }
+
+        User? userWithPosts = _context.Users.Include(user => user.Posts).FirstOrDefault(user => user.UserId == uid);
+
+
+        if (userWithPosts == null)
+        {
+            return RedirectToAction("LoginReg", "Users");
+        }
+
+        return View("LoggedInPosts", userWithPosts);
+    }
+
     [HttpGet("/posts/new")]
     public IActionResult New()
     {
@@ -46,6 +66,8 @@ public class PostsController : Controller
             return New();
         }
 
+        newPost.UserId = (int)uid;
+
         //only runs if ModelState  *IS*  valid
         _context.Posts.Add(newPost);
         // _context doesn't update until we run SaveChanges
@@ -58,7 +80,12 @@ public class PostsController : Controller
     [HttpGet("/posts/all")]
     public IActionResult All()
     {
-        List<Post> allPosts = _context.Posts.ToList();
+        if (uid == null)
+        {
+            return RedirectToAction("LoginReg", "Users");
+        }
+        
+        List<Post> allPosts = _context.Posts.Include(post => post.Author).ToList();
 
         return View("All", allPosts);
     }

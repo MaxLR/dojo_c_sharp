@@ -31,4 +31,6 @@ public class User
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+    public List<Post> Posts { get; set; } = new List<Post>();
 }
