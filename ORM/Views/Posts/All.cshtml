@@ -25,6 +25,23 @@
 
     <p>Created by: @post.Author.Username</p>
 
+    <p>This post has been liked: @post.Likes.Count times!</p>
+
+    <form asp-controller="Posts" asp-action="Like" asp-route-postId="@post.PostId">
+        @{
+            bool alreadyLiked = post.Likes.Any(like => like.UserId == Context.Session.GetInt32("UUID"));
+        }
+        <button>
+            @if (alreadyLiked) {
+                <span>Unlike</span>
+            }
+            else
+            {
+                <span>Like</span>
+            }
+        </button>
+    </form>
+
     @* asp-route-paramName=@paramValue: paramName can be whatever you want
         but it NEEDS to match up w/ parameters in route & method in the controller
     *@

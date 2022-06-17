@@ -28,6 +28,35 @@ public class PostsController : Controller
         _context = context;
     }
 
+    [HttpPost("/posts/{postId}/like")]
+    public IActionResult Like(int postId)
+    {
+        if (!loggedIn)
+        {
+            return RedirectToAction("LoginReg", "Users");
+        }
+
+        UserPostLike? existingLike = _context.UserPostLikes.FirstOrDefault(like => like.PostId == postId && like.UserId == (int)uid);
+
+        if (existingLike == null)
+        {
+            UserPostLike like = new UserPostLike()
+            {
+                PostId = postId,
+                UserId = (int)uid
+            };
+
+            _context.UserPostLikes.Add(like);
+        }
+        else
+        {
+            _context.UserPostLikes.Remove(existingLike);
+        }
+
+        _context.SaveChanges();
+        return RedirectToAction("All");
+    }
+
     [HttpGet("/logged_in_posts")]
     public IActionResult LoggedInPosts()
     {
@@ -85,7 +114,7 @@ public class PostsController : Controller
             return RedirectToAction("LoginReg", "Users");
         }
         
-        List<Post> allPosts = _context.Posts.Include(post => post.Author).ToList();
+        List<Post> allPosts = _context.Posts.Include(post => post.Author).Include(post => post.Likes).ToList();
 
         return View("All", allPosts);
     }
