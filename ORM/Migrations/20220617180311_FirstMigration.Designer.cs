@@ -11,8 +11,8 @@ using ORM.Models;
 namespace ORM.Migrations
 {
     [DbContext(typeof(ORMContext))]
-    [Migration("20220616175134_UserPostRelationship")]
-    partial class UserPostRelationship
+    [Migration("20220617180311_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,33 @@ namespace ORM.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("UserPostLike", b =>
+                {
+                    b.Property<int>("UserPostLikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserPostLikeId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPostLikes");
+                });
+
             modelBuilder.Entity("Post", b =>
                 {
                     b.HasOne("User", "Author")
@@ -95,8 +122,34 @@ namespace ORM.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("UserPostLike", b =>
+                {
+                    b.HasOne("Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Post", b =>
+                {
+                    b.Navigation("Likes");
+                });
+
             modelBuilder.Entity("User", b =>
                 {
+                    b.Navigation("Likes");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

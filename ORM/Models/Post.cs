@@ -25,4 +25,7 @@ public class Post
 
     public int UserId { get; set; } //this FK must match the PK prop name
     public User? Author { get; set; } //one user related to each individual post
+
+    //Many to many   - 1 post can be liked by many users
+    public List<UserPostLike> Likes { get; set; } = new List<UserPostLike>();
 }

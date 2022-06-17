@@ -33,4 +33,7 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Post> Posts { get; set; } = new List<Post>();
+
+    //Many to many   - one user can like many posts
+    public List<UserPostLike> Likes { get; set; } = new List<UserPostLike>();
 }
