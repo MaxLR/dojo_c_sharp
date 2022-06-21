@@ -5,6 +5,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+namespace VacationPlanner.Models;
+
 public class Vacation
 {
     [Key]
@@ -29,4 +31,6 @@ public class Vacation
 
     public int UserId { get; set; }
     public User? Planner { get; set; }
+
+    public List<UserVacationSignup> JoinedVisitors { get; set; } = new List<UserVacationSignup>();
 }

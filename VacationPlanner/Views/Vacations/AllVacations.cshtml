@@ -7,6 +7,8 @@
 
 @foreach (Vacation v in Model)
 {
+    bool alreadyVacationing = v.JoinedVisitors.Any(vacationer => vacationer.UserId == Context.Session.GetInt32("UserId"));
+
     <h3><a asp-controller="Vacations" asp-action="ViewOne" asp-route-vacationId="@v.VacationId">@v.Title</a></h3>
     <p>@v.Description</p>
     @if (v.Planner != null)
@@ -14,4 +16,16 @@
         <p>Planned by: @v.Planner.FirstName @v.Planner.LastName</p>
     }
     <p>@v.Date</p>
+    <form asp-action="JoinVacation" asp-controller="Vacations" asp-route-vacationId="@v.VacationId">
+        <button>
+            @if (alreadyVacationing == true)
+            {
+                <span>Un-RSVP</span>
+            }
+            else
+            {
+                <span>Attend</span>
+            }
+        </button>
+    </form>
 }

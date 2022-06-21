@@ -12,3 +12,12 @@ else
 {
     <img src="@Model.ImgUrl" alt=""/>
 }
+
+<h3>Here's Everybody that's going to @Model.Title</h3>
+@foreach (UserVacationSignup registration in Model.JoinedVisitors)
+{
+    if(registration.Vacationer != null)
+    {
+        <p>@registration.Vacationer.FirstName @registration.Vacationer.LastName</p>
+    }
+}

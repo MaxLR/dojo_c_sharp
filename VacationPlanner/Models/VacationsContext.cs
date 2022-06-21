@@ -12,4 +12,5 @@ public class VacationsContext : DbContext
     
     public DbSet<User> Users { get; set; } 
     public DbSet<Vacation> Vacations { get; set; } 
+    public DbSet<UserVacationSignup> UserVacationSignups { get; set; } 
 }

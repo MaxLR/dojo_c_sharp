@@ -9,6 +9,14 @@ public class HomeController : Controller
 {
     private VacationsContext _context;
 
+    private int? uid
+    {
+        get
+        {
+            return HttpContext.Session.GetInt32("UserId");
+        }
+    }
+
     public HomeController(VacationsContext context)
     {
         _context = context;
@@ -17,6 +25,10 @@ public class HomeController : Controller
     [HttpGet("")]
     public IActionResult Index()
     {
+        if(uid != null)
+        {
+            return RedirectToAction("AllVacations", "Vacations");
+        }
         return View("Index");
     }
 

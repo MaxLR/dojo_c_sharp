@@ -78,7 +78,7 @@ public class VacationsController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        List<Vacation> vacations = _context.Vacations.Include(v => v.Planner).Where(v => v.Date > DateTime.Now).ToList();
+        List<Vacation> vacations = _context.Vacations.Include(v => v.Planner).Include(v => v.JoinedVisitors).Where(v => v.Date > DateTime.Now).ToList();
 
         return View("AllVacations", vacations);
     }
@@ -90,7 +90,7 @@ public class VacationsController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
-        Vacation? vacation = _context.Vacations.Include(v => v.Planner).FirstOrDefault(v => v.VacationId == vacationId);
+        Vacation? vacation = _context.Vacations.Include(v => v.Planner).Include(v => v.JoinedVisitors).ThenInclude(vacationer => vacationer.Vacationer).FirstOrDefault(v => v.VacationId == vacationId);
 
         if(vacation == null)
         {
@@ -98,5 +98,34 @@ public class VacationsController : Controller
         }
 
         return View("ViewOne", vacation);
+    }
+
+    [HttpPost("/vacations/{vacationId}/join")]
+    public IActionResult JoinVacation(int vacationId)
+    {
+        if (uid == null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        UserVacationSignup? existingRegistration = _context.UserVacationSignups.FirstOrDefault(s => s.UserId == uid && s.VacationId == vacationId);
+
+        if (existingRegistration == null)
+        {
+            UserVacationSignup newSignup = new UserVacationSignup()
+            {
+                VacationId = vacationId,
+                UserId = (int)uid
+            };
+
+            _context.UserVacationSignups.Add(newSignup);
+        }
+        else
+        {
+            _context.UserVacationSignups.Remove(existingRegistration);
+        }
+
+        _context.SaveChanges();
+        return RedirectToAction("Vacations");
     }
 }

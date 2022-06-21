@@ -5,6 +5,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+namespace VacationPlanner.Models;
+
 public class User
 {
     [Key]
@@ -38,4 +40,6 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Vacation> PlannedVacations { get; set; } = new List<Vacation>();
+
+    public List<UserVacationSignup> JoinedVacations { get; set; } = new List<UserVacationSignup>();
 }

@@ -11,8 +11,8 @@ using VacationPlanner.Models;
 namespace VacationPlanner.Migrations
 {
     [DbContext(typeof(VacationsContext))]
-    [Migration("20220621172658_AddedVacationModel")]
-    partial class AddedVacationModel
+    [Migration("20220621223201_RecreatingDatabase")]
+    partial class RecreatingDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace VacationPlanner.Migrations
                 .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("VacationPlanner.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,31 @@ namespace VacationPlanner.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Vacation", b =>
+            modelBuilder.Entity("VacationPlanner.Models.UserVacationSignup", b =>
+                {
+                    b.Property<int>("UserVacationSignupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VacationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserVacationSignupId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VacationId");
+
+                    b.ToTable("UserVacationSignups");
+                });
+
+            modelBuilder.Entity("VacationPlanner.Models.Vacation", b =>
                 {
                     b.Property<int>("VacationId")
                         .ValueGeneratedOnAdd()
@@ -90,9 +114,28 @@ namespace VacationPlanner.Migrations
                     b.ToTable("Vacations");
                 });
 
-            modelBuilder.Entity("Vacation", b =>
+            modelBuilder.Entity("VacationPlanner.Models.UserVacationSignup", b =>
                 {
-                    b.HasOne("User", "Planner")
+                    b.HasOne("VacationPlanner.Models.User", "Vacationer")
+                        .WithMany("JoinedVacations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VacationPlanner.Models.Vacation", "Vacation")
+                        .WithMany("JoinedVisitors")
+                        .HasForeignKey("VacationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vacation");
+
+                    b.Navigation("Vacationer");
+                });
+
+            modelBuilder.Entity("VacationPlanner.Models.Vacation", b =>
+                {
+                    b.HasOne("VacationPlanner.Models.User", "Planner")
                         .WithMany("PlannedVacations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -101,9 +144,16 @@ namespace VacationPlanner.Migrations
                     b.Navigation("Planner");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("VacationPlanner.Models.User", b =>
                 {
+                    b.Navigation("JoinedVacations");
+
                     b.Navigation("PlannedVacations");
+                });
+
+            modelBuilder.Entity("VacationPlanner.Models.Vacation", b =>
+                {
+                    b.Navigation("JoinedVisitors");
                 });
 #pragma warning restore 612, 618
         }
