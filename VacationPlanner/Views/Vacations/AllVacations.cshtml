@@ -1,0 +1,17 @@
+@model List<Vacation>
+
+<a asp-controller="Vacations" asp-action="New">Plan a new Vacation</a>
+<br>
+
+<h1>View Everyone's Planned Vacations!!</h1>
+
+@foreach (Vacation v in Model)
+{
+    <h3><a asp-controller="Vacations" asp-action="ViewOne" asp-route-vacationId="@v.VacationId">@v.Title</a></h3>
+    <p>@v.Description</p>
+    @if (v.Planner != null)
+    {
+        <p>Planned by: @v.Planner.FirstName @v.Planner.LastName</p>
+    }
+    <p>@v.Date</p>
+}

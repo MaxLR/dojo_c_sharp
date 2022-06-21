@@ -19,7 +19,7 @@ public class Vacation
     public string Description { get; set; }
 
     [Required(ErrorMessage = "is required.")]
-    [DataType(DataType.DateTime)]
+    [DataType(DataType.Date)]
     public DateTime Date { get; set; }
 
     public string? ImgUrl { get; set; }

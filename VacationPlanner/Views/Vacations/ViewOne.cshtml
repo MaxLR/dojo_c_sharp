@@ -1,0 +1,14 @@
+@model Vacation
+
+@if (Model.Planner != null) {
+    <h1>@Model.Planner.FirstName's trip to @Model.Title</h1>
+}
+else
+{
+    <h1>@Model.Title</h1>
+}
+
+@if (Model.ImgUrl != null)
+{
+    <img src="@Model.ImgUrl" alt=""/>
+}

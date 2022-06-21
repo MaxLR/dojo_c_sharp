@@ -42,7 +42,7 @@ public class HomeController : Controller
 
         HttpContext.Session.SetInt32("UserId", newUser.UserId);
 
-        return RedirectToAction("Success");
+        return RedirectToAction("AllVacations", "Vacations");
     }
 
     [HttpPost("/login")]
@@ -57,7 +57,7 @@ public class HomeController : Controller
 
         if (dbUser == null)
         {
-            ModelState.AddModelError("Email", "and Password don't match");
+            ModelState.AddModelError("LoginEmail", "and Password don't match");
             return Index();
         }
 
@@ -66,12 +66,12 @@ public class HomeController : Controller
 
         if (pwCompare == 0)
         {
-            ModelState.AddModelError("Email", "and Password don't match");
+            ModelState.AddModelError("LoginEmail", "and Password don't match");
             return Index();
         }
 
         HttpContext.Session.SetInt32("UserId", dbUser.UserId);
-        return RedirectToAction("Success");
+        return RedirectToAction("AllVacations", "Vacations");
     }
 
     [HttpGet("/success")]
