@@ -41,31 +41,174 @@
       this.head = null;
     }
 
-    /**
-     * Reverses this list in-place without using any extra lists.
-     * - Time: (?).
-     * - Space: (?).
-     * @returns {SinglyLinkedList} This list.
-     */
-    reverse() {}
-
+    reverse() {
+      /*
+        Each iteration we cut out current's next node to make it the new head
+        iteration-by-iteration example:
+        1234 -> initial list, 'current' is 1, next is 2.
+        2134 -> 'current' is still 1, next is 3.
+        3214
+        4321
+      */
+      if (!this.head || !this.head.next) {
+        return this;
+      }
+  
+      let current = this.head;
+  
+      while (current.next) {
+        const newHead = current.next;
+        // cut the newHead out from where it currently is
+        current.next = current.next.next;
+        newHead.next = this.head;
+        this.head = newHead;
+      }
+      return this;
+    }
+  
+    reverse2() {
+      let prev = null;
+      let node = this.head;
+  
+      while (node) {
+        const nextNode = node.next;
+        node.next = prev;
+        prev = node;
+        node = nextNode;
+      }
+      this.head = prev;
+      return this;
+    }
+  
     /**
      * Determines whether the list has a loop in it which would result in
      * infinitely traversing unless otherwise avoided. A loop is when a node's
      * next points to a node that is behind it.
-     * - Time: (?).
-     * - Space: (?).
+     * - Time: O(n) linear, n = list length.
+     * - Space: O(1) constant.
      * @returns {boolean} Whether the list has a loop or not.
      */
-    hasLoop() {}
-
+    hasLoop() {
+      /**
+        APPROACH:
+        two runners are sent out and one runner goes faster so it will
+        eventually 'lap' the slower runner if there is a loop, 
+        at the moment faster runner laps slower runner, they are at the same
+        place, aka same instance of a node.
+      */
+      if (!this.head) {
+        return false;
+      }
+  
+      let fasterRunner = this.head;
+      let runner = this.head;
+  
+      while (fasterRunner && fasterRunner.next) {
+        runner = runner.next;
+        fasterRunner = fasterRunner.next.next;
+  
+        if (runner === fasterRunner) {
+          return true;
+        }
+      }
+      return false;
+    }
+  
+    /**
+     * Determines whether the list has a loop in it which would result in
+     * infinitely traversing unless otherwise avoided.
+     * In a normal object, the keys cannot be other objects, but in a Map object,
+     * they can be. We can't use the .data as the keys in a normal object because
+     * that would could cause hasLoop to return a false positive when there are
+     * nodes with duplicate data but no loop.
+     * - Time: O(n) linear, n = list length.
+     * - Space: O(n) linear due to the Map.
+     * @returns {boolean} Whether the list has a loop or not.
+     */
+    hasLoopMap() {
+      if (this.isEmpty()) {
+        return false;
+      }
+  
+      const seenMap = new Map();
+      let runner = this.head;
+  
+      while (runner) {
+        if (seenMap.has(runner)) {
+          return true;
+        }
+        seenMap.set(runner, true);
+        runner = runner.next;
+      }
+      return false;
+    }
+  
+    /**
+     * Determines whether the list has a loop in it which would result in
+     * infinitely traversing unless otherwise avoided.
+     * This approaches adds a seen key to the nodes, then removes them when done.
+     * - Time: O(2n) -> O(n) linear. The 2nd loop is to remove the extra seen key
+     *    that was added.
+     * - Space: O(n) because "seen" key is being stored n times.
+     * @returns {boolean} Whether the list has a loop or not.
+     */
+    hasLoopSeen() {
+      if (this.isEmpty()) {
+        return false;
+      }
+  
+      let runner = this.head;
+      let hasLoop = false;
+  
+      while (runner) {
+        if (runner.hasOwnProperty('seen')) {
+          hasLoop = true;
+          break;
+        } else {
+          runner.seen = true;
+        }
+        runner = runner.next;
+      }
+  
+      runner = this.head;
+  
+      while (runner && runner.hasOwnProperty('seen')) {
+        delete runner.seen;
+        runner = runner.next;
+      }
+      return hasLoop;
+    }
+  
     /**
      * Removes all the nodes that have a negative integer as their data.
-     * - Time: (?).
-     * - Space: (?).
+     * - Time: O(n) linear, n = list length.
+     * - Space: O(1) constant.
      * @returns {SinglyLinkedList} This list after the negatives are removed.
      */
-    removeNegatives() {}
+    removeNegatives() {
+      if (this.isEmpty()) {
+        return this;
+      }
+  
+      let runner = this.head;
+  
+      // get rid of all negatives at start so head will be positive, or null
+      while (runner && runner.data < 0) {
+        runner = runner.next;
+      }
+  
+      this.head = runner;
+  
+      //  head may have become null, that's why we check runner && runner.next
+      while (runner && runner.next) {
+        if (runner.next.data < 0) {
+          runner.next = runner.next.next;
+        } else {
+          runner = runner.next;
+        }
+      }
+      return this;
+    }
 
     /**
      * Concatenates the nodes of a given list onto the back of this list.
