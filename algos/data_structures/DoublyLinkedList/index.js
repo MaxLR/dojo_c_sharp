@@ -45,6 +45,32 @@ class DoublyLinkedList {
   }
 
   /**
+   * Retrieves the data from the nthLast node in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {number} nthLast Indicates the position from the back of the list.
+   * @returns {any}
+   */
+  nthToLast(nthLast) {}
+
+    /**
+      * Determines if the node's data of this list forms a palindrome.
+      * - Time: O(?).
+      * - Space: O(?).
+      * @returns {boolean} Indicates if this list is a palindrome.
+      */
+  isPalindrome() {}
+  
+    /**
+      * Determines if a given node in this list is in the left half of this list.
+      * - Time: O(?).
+      * - Space: O(?).
+      * @param {Node} node
+      * @returns {boolean}
+      */
+  isNodeInLeftHalf(node) {}
+
+  /**
    * Inserts a new node with the given newVal after the node that has the
    * given targetVal as it's data.
    * - Time: O(?).
