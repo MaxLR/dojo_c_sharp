@@ -132,3 +132,5 @@
   
   // Print your list like so:
   // console.log(firstThreeList.toArr());
+  // console.log(biNodeList.toArr());
+  // console.log(singleNodeList.toArr());
