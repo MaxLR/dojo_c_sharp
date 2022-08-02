@@ -1,4 +1,5 @@
-namespace OOPDemo;
+//updated namespace
+namespace People;
 
 public class Student : Person
 {

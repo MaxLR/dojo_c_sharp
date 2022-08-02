@@ -1,4 +1,8 @@
-namespace OOPDemo;
+//need this line to be able to access classes from the People namespace (Person, Instructor, Student)
+using People;
+
+//declaring what namespace our Lecture class belongs to
+namespace Places;
 
 public class Lecture
 {

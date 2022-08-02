@@ -1,4 +1,6 @@
-﻿using OOPDemo;
+﻿//updated namespaces from Namespace mini-lecture
+using People;
+using Places;
 
 // Person cody = new Person("Cody", "Adams");
 Student studiousCody = new Student("Cody", "Adams", 13);
