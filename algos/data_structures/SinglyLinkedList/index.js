@@ -42,90 +42,153 @@
     }
 
     /**
-     * Creates a new node with the given data and inserts that node at the front
-     * of this list.
-     * - Time: (?).
-     * - Space: (?).
-     * @param {any} data The data for the new node.
-     * @returns {SinglyLinkedList} This list.
+     * Removes the last node of this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @returns {any} The data from the node that was removed.
      */
-    insertAtFront(data) {}
+    removeBack() {}
 
     /**
-     * Removes the first node of this list.
-     * - Time: (?).
-     * - Space: (?).
-     * @returns {any} The data from the removed node.
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The data to search for in the nodes of this list.
+     * @returns {boolean}
      */
-    removeHead() {}
+    contains(val) {}
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The data to search for in the nodes of this list.
+     * @param {?ListNode} current The current node during the traversal of this list
+     *    or null when the end of the list has been reached.
+     * @returns {boolean}
+     */
+    containsRecursive(val, current = this.head) {}
 
     // EXTRA
     /**
+     * Recursively finds the maximum integer data of the nodes in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {ListNode} runner The start or current node during traversal, or null
+     *    when the end of the list is reached.
+     * @param {ListNode} maxNode Keeps track of the node that contains the current
+     *    max integer as it's data.
+     * @returns {?number} The max int or null if none.
+     */
+    recursiveMax(runner = this.head, maxNode = this.head) {}
+
+    /**
+     * Creates a new node with the given data and inserts that node at the front
+     * of the list.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
+     * @param {any} data The data for the new node.
+     * @returns {SinglyLinkedList} This list.
+     */
+    insertAtFront(data) {
+      const newHead = new ListNode(data);
+      newHead.next = this.head;
+      this.head = newHead;
+      return this;
+    }
+
+    /**
+     * Removes the first node of this list.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
+     * @returns {any} The data from the removed node.
+     */
+    removeHead() {
+      if (this.isEmpty()) {
+        return null;
+      }
+
+      const oldHead = this.head;
+      this.head = oldHead.next;
+      return oldHead.data;
+    }
+
+    /**
      * Calculates the average of this list.
-     * - Time: (?).
-     * - Space: (?).
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(1) constant.
      * @returns {number|NaN} The average of the node's data.
      */
-    average() {}
-  
-  /**
-   * Determines if this list is empty.
-   * - Time: O(1) constant.
-   * - Space: O(1) constant.
-   * @returns {boolean}
-  */
-  isEmpty() {
-    return this.head === null;
-  }
+    average() {
+      let runner = this.head;
+      let sum = 0;
+      let cnt = 0;
 
-  /**
-   * Creates a new node with the given data and inserts it at the back of
-   * this list.
-   * - Time: O(n) linear, n = length of list.
-   * - Space: O(1) constant.
-   * @param {any} data The data to be added to the new node.
-   * @returns {SinglyLinkedList} This list.
-  */
-  insertAtBack(data) {
-    const newBack = new ListNode(data);
+      while (runner) {
+        cnt++;
+        sum += runner.data;
+        runner = runner.next;
+      }
+    }
+    
+    /**
+     * Determines if this list is empty.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
+     * @returns {boolean}
+    */
+    isEmpty() {
+      return this.head === null;
+    }
 
-    if (this.isEmpty()) {
-      this.head = newBack;
+    /**
+     * Creates a new node with the given data and inserts it at the back of
+     * this list.
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(1) constant.
+     * @param {any} data The data to be added to the new node.
+     * @returns {SinglyLinkedList} This list.
+    */
+    insertAtBack(data) {
+      const newBack = new ListNode(data);
+
+      if (this.isEmpty()) {
+        this.head = newBack;
+        return this;
+      }
+
+      let runner = this.head;
+
+      while (runner.next !== null) {
+        runner = runner.next;
+      }
+
+      runner.next = newBack;
       return this;
     }
 
-    let runner = this.head;
+    /**
+     * Creates a new node with the given data and inserts it at the back of
+     * this list.
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(n) linear due to the call stack.
+     * @param {any} data The data to be added to the new node.
+     * @param {?ListNode} runner The current node during the traversal of this list
+     *    or null when the end of the list has been reached.
+     * @returns {SinglyLinkedList} This list.
+    */
+    insertAtBackRecursive(data, runner = this.head) {
+      if (this.isEmpty()) {
+        this.head = new ListNode(data);
+        return this;
+      }
 
-    while (runner.next !== null) {
-      runner = runner.next;
-    }
-
-    runner.next = newBack;
-    return this;
-  }
-
-  /**
-   * Creates a new node with the given data and inserts it at the back of
-   * this list.
-   * - Time: O(n) linear, n = length of list.
-   * - Space: O(n) linear due to the call stack.
-   * @param {any} data The data to be added to the new node.
-   * @param {?ListNode} runner The current node during the traversal of this list
-   *    or null when the end of the list has been reached.
-   * @returns {SinglyLinkedList} This list.
-  */
-  insertAtBackRecursive(data, runner = this.head) {
-    if (this.isEmpty()) {
-      this.head = new ListNode(data);
-      return this;
-    }
-
-    if (runner.next === null) {
-      runner.next = new ListNode(data);
-      return this;
-    }
-    return this.insertAtBackRecursive(data, runner.next);
-  }  
+      if (runner.next === null) {
+        runner.next = new ListNode(data);
+        return this;
+      }
+      return this.insertAtBackRecursive(data, runner.next);
+    }  
   
     /**
      * Calls insertAtBack on each item of the given array.
