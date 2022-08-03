@@ -24,4 +24,14 @@ public class HomeController : Controller
 
         return View("Videos");
     }
+
+    //new route to display our model using the ViewBag
+    [HttpGet("/showingModel")]
+    public IActionResult ModelDisplay() {
+        List<int> myNums = new List<int>() { 1, 2, 3 };
+        MyModel someModel = new MyModel("squirtle", myNums);
+
+        ViewBag.MyModel = someModel;
+        return View();
+    }
 }

@@ -1,0 +1,23 @@
+<h1>@ViewBag.MyModel.FavoritePokemon</h1>
+
+@* Because we use viewbag, the interpreter doesn't know what fields/properties/methods exist on our model *@
+@* because of this, we CAN try to include things that don't exist on the class, which causes runtime errors *@
+@* <h3>@ViewBag.MyModel.SomeField</h3> *@
+
+<table>
+    <thead>
+        <tr>
+            <th>My Numbers</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (int number in ViewBag.MyModel.NumbersILike)
+            {
+                <tr>
+                    <td>@number</td>
+                </tr>
+            }
+
+    </tbody>
+</table>
+
