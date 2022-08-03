@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="~/css/styles.css">
+
+<h1>Hello from our view!!!</h1>
+
+<body class="bg-dark text-light">
+<h3>This is the body</h3>
+</body>
+
+<a href="/videos">Videos</a>
+
+@{
+    string helloWorld = "Hello World from our string";
+    List<int> ints = new List<int>(){
+        1, 2, 3, 4, 5    
+    };
+
+    foreach (int number in ints)
+    {
+        <p>@number</p>
+    };
+    <h4>@helloWorld</h4>
+}
