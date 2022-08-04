@@ -1,3 +1,5 @@
+namespace ASPNetDemo.Models;
+
 public class MyModel {
     public string FavoritePokemon { get; set; }
 
