@@ -92,7 +92,8 @@ var moviesAndActors = movies.
     (movie, actor) => new { movie, actor }  //return a new dictionary w/ movie & actor inside of it
 ).ToList();
 
-// foreach (var movieWithActor in moviesAndActors)
-// {
-//     Console.WriteLine(movieWithActor.movie.Title + " starring: " + movieWithActor.actor.FullName() + " who is currently: " + movieWithActor.actor.Age);
-// }
+
+foreach (var movieWithActor in moviesAndActors)
+{
+    Console.WriteLine(movieWithActor.movie.Title + " starring: " + movieWithActor.actor.FullName() + " who is currently: " + movieWithActor.actor.Age);
+}
