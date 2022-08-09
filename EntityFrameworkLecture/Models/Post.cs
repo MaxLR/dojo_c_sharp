@@ -16,6 +16,7 @@ public class Post
     [Required(ErrorMessage = "is required")]
     [MinLength(2, ErrorMessage = "must be at least 2 characters")]
     [MaxLength(45, ErrorMessage = "must be shorter than 45 characters")]
+    [Display(Name = "Favorite Topic")]
     public string Topic { get; set; }
 
     [Required(ErrorMessage = "is required")]

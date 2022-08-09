@@ -18,5 +18,12 @@
         @if (post.ImgUrl != null && post.ImgUrl != "") {
             <img src="@post.ImgUrl" alt="related to post." class="card-img-bottom" />
         }
+        <a 
+            asp-action="ViewPost"
+            asp-route-postId="@post.PostId"
+        >View Details</a>
+
+        <a href="/posts/@post.PostId" >View But w/ href</a>
+
     </div>
 }

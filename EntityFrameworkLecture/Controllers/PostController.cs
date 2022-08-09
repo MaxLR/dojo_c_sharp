@@ -6,6 +6,7 @@ namespace EntityFrameworkLecture.Controllers;
     
 public class PostController : Controller
 {
+    // _context is just a variable name, can be called anything (e.g. DATABASE, db, _db, etc)
     private EFLectureContext _context;
      
     // here we can "inject" our context service into the constructor
@@ -46,5 +47,82 @@ public class PostController : Controller
         _context.SaveChanges();
 
         return RedirectToAction("All");
+    }
+
+    [HttpGet("/posts/{postId}")]
+    public IActionResult ViewPost(int postId)
+    {
+        // since firstordefault can return a single post, or null. our variable needs to be a nullable datatype
+        Post? post = _context.Posts.FirstOrDefault(post => post.PostId == postId);
+        
+        // to get rid of "object might be null" warnings, write a conditional that checks for it & returns if it's null
+        if (post == null)
+        {
+            return RedirectToAction("All");
+        }
+        
+        return View("ViewPost", post);
+    }
+
+    [HttpPost("/posts/{deletedPostId}/delete")]
+    public IActionResult Delete(int deletedPostId)
+    {
+        Post? postToBeDeleted = _context.Posts.FirstOrDefault(post => post.PostId == deletedPostId);
+
+        if (postToBeDeleted != null)
+        {
+            _context.Posts.Remove(postToBeDeleted);
+            _context.SaveChanges();
+        }
+
+        return RedirectToAction("All");
+    }
+
+    [HttpGet("/posts/{postToBeEdited}/edit")]
+    public IActionResult EditPost(int postToBeEdited)
+    {
+        Post? post = _context.Posts.FirstOrDefault(post => post.PostId == postToBeEdited);
+
+        if (post == null)
+        {
+            return RedirectToAction("All");
+        }
+
+        return View("Edit", post);
+    }
+
+    [HttpPost("/posts/{updatedPostId}/update")]
+    public IActionResult UpdatePost(int updatedPostId, Post updatedPost)
+    {
+        if (ModelState.IsValid == false)
+        {
+            // can remove all of the code below as long as we don't default our View() function in EditPost
+
+            // Post? originalPost = _context.Posts.FirstOrDefault(post => post.PostId == updatedPost.PostId);
+            // if (originalPost == null)
+            // {
+            //     RedirectToAction("All");
+            // }
+            // return View("Edit", originalPost);
+
+            return EditPost(updatedPostId);
+        }
+
+        Post? dbPost = _context.Posts.FirstOrDefault(post => post.PostId == updatedPostId);
+
+        if (dbPost == null)
+        {
+            return RedirectToAction("All");
+        }
+
+        dbPost.Topic = updatedPost.Topic;
+        dbPost.Body = updatedPost.Body;
+        dbPost.ImgUrl = updatedPost.ImgUrl;
+        dbPost.UpdatedAt = DateTime.Now;
+
+        _context.Posts.Update(dbPost);
+        _context.SaveChanges();
+
+        return RedirectToAction("ViewPost", new { postId = dbPost.PostId });
     }
  }
