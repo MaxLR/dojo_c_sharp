@@ -1,4 +1,6 @@
 @model List<Post>
+<h3>Welcome @Context.Session.GetString("Name"), UUID: @Context.Session.GetInt32("UUID")</h3>
+
 <h1>Come view our posts!!</h1>
 
 <a href="/posts/new">Create a new post</a>

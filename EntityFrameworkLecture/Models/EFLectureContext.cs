@@ -12,4 +12,5 @@ public class EFLectureContext : DbContext
     // the "Posts" table name will come from the DbSet property name
 
     public DbSet<Post> Posts { get; set; } 
+    public DbSet<User> Users { get; set; } 
 }

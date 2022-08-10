@@ -8,17 +8,37 @@ public class PostController : Controller
 {
     // _context is just a variable name, can be called anything (e.g. DATABASE, db, _db, etc)
     private EFLectureContext _context;
+
+    private int? uid
+    {
+        get
+        {
+            return HttpContext.Session.GetInt32("UUID");
+        }
+    }
+
+    private bool loggedIn
+    {
+        get
+        {
+            return uid != null;
+        }
+    }
      
     // here we can "inject" our context service into the constructor
     public PostController(EFLectureContext context)
     {
         _context = context;
     }
-     
-    [HttpGet("/")]
+
     [HttpGet("/posts/all")]
     public IActionResult All()
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         List<Post> AllPosts = _context.Posts.ToList();
 
         return View("All", AllPosts);
@@ -27,12 +47,28 @@ public class PostController : Controller
     [HttpGet("/posts/new")]
     public IActionResult New()
     {
+        int? userId = HttpContext.Session.GetInt32("UUID");
+        if (userId == null)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         return View("New");
     }
 
     [HttpPost("/posts/create")]
     public IActionResult Create(Post newPost)
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         if (ModelState.IsValid == false) {
             // by not defaulting the return of View() in New, we can invoke the New() function & not have to re-write code
             // return View("New");
@@ -52,6 +88,11 @@ public class PostController : Controller
     [HttpGet("/posts/{postId}")]
     public IActionResult ViewPost(int postId)
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         // since firstordefault can return a single post, or null. our variable needs to be a nullable datatype
         Post? post = _context.Posts.FirstOrDefault(post => post.PostId == postId);
         
@@ -67,6 +108,11 @@ public class PostController : Controller
     [HttpPost("/posts/{deletedPostId}/delete")]
     public IActionResult Delete(int deletedPostId)
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         Post? postToBeDeleted = _context.Posts.FirstOrDefault(post => post.PostId == deletedPostId);
 
         if (postToBeDeleted != null)
@@ -81,6 +127,11 @@ public class PostController : Controller
     [HttpGet("/posts/{postToBeEdited}/edit")]
     public IActionResult EditPost(int postToBeEdited)
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         Post? post = _context.Posts.FirstOrDefault(post => post.PostId == postToBeEdited);
 
         if (post == null)
@@ -94,6 +145,11 @@ public class PostController : Controller
     [HttpPost("/posts/{updatedPostId}/update")]
     public IActionResult UpdatePost(int updatedPostId, Post updatedPost)
     {
+        if (!loggedIn)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
         if (ModelState.IsValid == false)
         {
             // can remove all of the code below as long as we don't default our View() function in EditPost
