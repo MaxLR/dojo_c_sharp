@@ -28,4 +28,16 @@ public class Post
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+/**********************************************************************
+Relationship properties below
+
+Foreign Keys: id of a different (foreign) model
+
+Navigation Props:
+    data type is a related model
+    MUST use the .Include for the nav prop data to be included via a SQL JOIN statement
+**********************************************************************/
+    public int UserId { get; set; } // this FK NEEDS to match w/ the PK property
+    public User? Author { get; set; } // 1 user related to each post
 }

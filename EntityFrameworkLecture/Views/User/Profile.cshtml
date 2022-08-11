@@ -1,24 +1,12 @@
-@model List<Post>
-<h3>Welcome @Context.Session.GetString("Name"), UUID: @Context.Session.GetInt32("UUID")</h3>
+@model User
 
-<h1>Come view our posts!!</h1>
+<h1>Profile for: @Model.FullName()</h1>
 
-
-@* 
-    You can use a partial that requires a different ViewModel
-        by creating an instance of that model
-        and passing it into your partial under the tag model="" 
-*@
-
-@{
-    Post newPost = new Post();
-    @* newPost.Topic = "topic created in cshtml file"; *@
-}
-<partial name="_New" model="@newPost"></partial>
-
-@foreach (Post post in Model)
-{
-    <div class="card shadow rounded mx-auto w-75 mb-3">
+<h3>Posts:</h3>
+<ul>
+    @foreach (Post post in Model.CreatedPosts)
+    {
+        <div class="card shadow rounded mx-auto w-75 mb-3">
         <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
         @post.Topic
         </h4>
@@ -43,5 +31,6 @@
 
         <a href="/posts/@post.PostId" >View But w/ href</a>
 
-    </div>
-}
+        </div>
+    }
+</ul>

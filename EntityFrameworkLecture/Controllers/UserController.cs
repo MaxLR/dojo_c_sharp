@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EntityFrameworkLecture.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EntityFrameworkLecture.Controllers;
     
@@ -111,5 +112,25 @@ public class UserController : Controller
     {
         HttpContext.Session.Clear();
         return RedirectToAction("Index");
+    }
+
+    [HttpGet("/profile")]
+    public IActionResult Profile()
+    {
+        if(!loggedIn)
+        {
+            return RedirectToAction("Index");
+        }
+
+        User? oneUser = db.Users
+            .Include(user => user.CreatedPosts)
+            .FirstOrDefault(user => user.UserId == uid);
+
+        if (oneUser != null)
+        {
+            return View("Profile", oneUser);
+        }
+
+        return RedirectToAction("Logout");
     }
 }

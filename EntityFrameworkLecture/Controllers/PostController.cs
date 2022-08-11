@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EntityFrameworkLecture.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace EntityFrameworkLecture.Controllers;
     
 public class PostController : Controller
@@ -39,7 +41,9 @@ public class PostController : Controller
             return RedirectToAction("Index", "User");
         }
 
-        List<Post> AllPosts = _context.Posts.ToList();
+        List<Post> AllPosts = _context.Posts
+        .Include(post => post.Author)
+        .ToList();
 
         return View("All", AllPosts);
     }
@@ -76,6 +80,11 @@ public class PostController : Controller
             return New();
         }
 
+        if (uid != null)
+        {
+            newPost.UserId = (int)uid;
+        }
+
         //this only runs if ModelState.IsValid == true
         _context.Posts.Add(newPost);
         // our sql database doesn't update until we save changes
@@ -94,7 +103,9 @@ public class PostController : Controller
         }
 
         // since firstordefault can return a single post, or null. our variable needs to be a nullable datatype
-        Post? post = _context.Posts.FirstOrDefault(post => post.PostId == postId);
+        Post? post = _context.Posts
+            .Include(post => post.Author)
+            .FirstOrDefault(post => post.PostId == postId);
         
         // to get rid of "object might be null" warnings, write a conditional that checks for it & returns if it's null
         if (post == null)
@@ -117,8 +128,11 @@ public class PostController : Controller
 
         if (postToBeDeleted != null)
         {
-            _context.Posts.Remove(postToBeDeleted);
-            _context.SaveChanges();
+            if(postToBeDeleted.UserId == uid)
+            {
+                _context.Posts.Remove(postToBeDeleted);
+                _context.SaveChanges();
+            }
         }
 
         return RedirectToAction("All");
@@ -134,7 +148,7 @@ public class PostController : Controller
 
         Post? post = _context.Posts.FirstOrDefault(post => post.PostId == postToBeEdited);
 
-        if (post == null)
+        if (post == null || post.UserId != uid)
         {
             return RedirectToAction("All");
         }
@@ -166,7 +180,7 @@ public class PostController : Controller
 
         Post? dbPost = _context.Posts.FirstOrDefault(post => post.PostId == updatedPostId);
 
-        if (dbPost == null)
+        if (dbPost == null || dbPost.UserId != uid)
         {
             return RedirectToAction("All");
         }
