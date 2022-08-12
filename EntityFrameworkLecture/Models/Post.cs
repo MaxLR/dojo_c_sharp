@@ -40,4 +40,5 @@ Navigation Props:
 **********************************************************************/
     public int UserId { get; set; } // this FK NEEDS to match w/ the PK property
     public User? Author { get; set; } // 1 user related to each post
+    public List<UserPostLike> Likes { get; set; } = new List<UserPostLike>();
 }

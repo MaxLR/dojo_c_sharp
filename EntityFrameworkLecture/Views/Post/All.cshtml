@@ -31,6 +31,9 @@
         @if(post.Author != null)
         {
             <p>@post.Author.FullName()</p>
+            @* Code below only runs when you use .ThenInclude for your author to
+            also include their created posts. (BUT THIS IS A BAD USE CASE)
+            <span>has written @post.Author.CreatedPosts.Count posts</span> *@
         }
 
         @if (post.ImgUrl != null && post.ImgUrl != "") {
@@ -43,5 +46,24 @@
 
         <a href="/posts/@post.PostId" >View But w/ href</a>
 
+        @{
+            bool alreadyLiked = post.Likes.Any(like => like.UserId == Context.Session.GetInt32("UUID"));
+        }
+
+        <div class="card-footer text-center">
+            <form asp-controller="Post" asp-action="Like" asp-route-pId="@post.PostId" method="POST">
+                <button>
+                    @if (alreadyLiked)
+                    {
+                        <span>Unlike</span>
+                    }
+                    else
+                    {
+                        <span>Like</span>
+                    }
+                </button>
+            </form>
+            <span>Likes: @post.Likes.Count</span>
+        </div>
     </div>
 }

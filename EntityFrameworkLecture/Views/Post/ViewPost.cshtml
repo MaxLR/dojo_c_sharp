@@ -8,6 +8,16 @@
 <h3>@Model.Body</h3>
 <img src="@Model.ImgUrl" alt="related to post." class="card-img-bottom" />
 
+<h3>Users who like this post:</h3>
+@foreach (UserPostLike like in Model.Likes)
+{
+    if(like.User != null)
+    {
+        <p>@like.User.FullName()</p>
+    }
+}
+
+<br><br>
 
 @if (@Model.UserId == Context.Session.GetInt32("UUID"))
 {

@@ -40,6 +40,8 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Post> CreatedPosts { get; set; } = new List<Post>();
+    public List<UserPostLike> Likes { get; set; } = new List<UserPostLike>();
+
 
     public string FullName()
     {

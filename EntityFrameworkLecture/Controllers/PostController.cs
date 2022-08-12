@@ -5,9 +5,13 @@ using EntityFrameworkLecture.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntityFrameworkLecture.Controllers;
-    
+
+
+
 public class PostController : Controller
 {
+    
+
     // _context is just a variable name, can be called anything (e.g. DATABASE, db, _db, etc)
     private EFLectureContext _context;
 
@@ -43,6 +47,9 @@ public class PostController : Controller
 
         List<Post> AllPosts = _context.Posts
         .Include(post => post.Author)
+        // line below was to get author post count on post tile (BAD USE CASE)
+        // .ThenInclude(author => author.CreatedPosts)
+        .Include(post => post.Likes)
         .ToList();
 
         return View("All", AllPosts);
@@ -104,7 +111,11 @@ public class PostController : Controller
 
         // since firstordefault can return a single post, or null. our variable needs to be a nullable datatype
         Post? post = _context.Posts
-            .Include(post => post.Author)
+            .Include(p => p.Author)
+            .Include(p => p.Likes)
+            // .ThenInclude is used for including something on the
+            // object that was JUST included (for this example, our likes list)
+            .ThenInclude(like => like.User)
             .FirstOrDefault(post => post.PostId == postId);
         
         // to get rid of "object might be null" warnings, write a conditional that checks for it & returns if it's null
@@ -195,4 +206,33 @@ public class PostController : Controller
 
         return RedirectToAction("ViewPost", new { postId = dbPost.PostId });
     }
+
+    [HttpPost("/posts/{pId}/like")]
+    public IActionResult Like(int pId)
+    {
+        if(!loggedIn || uid == null)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
+        UserPostLike? existingLike = _context.UserPostLikes.FirstOrDefault(like => like.PostId == pId && like.UserId == uid);
+
+        if (existingLike == null)
+        {
+            UserPostLike newLike = new UserPostLike(){
+                PostId = pId,
+                UserId = (int)uid
+            };
+            _context.UserPostLikes.Add(newLike);
+        }
+        else
+        {
+            _context.Remove(existingLike);
+        }
+
+
+        _context.SaveChanges();
+        return RedirectToAction("All");
+    }
  }
+
