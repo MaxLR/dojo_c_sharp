@@ -46,36 +46,113 @@ class BinarySearchTree {
     * @param {Node} current The current node during the traversal of this tree.
     * @returns {Array<number>} The data of all nodes in BFS order.
     */
-    toArrLevelorder(current = this.root) {}
+    toArrLevelorder(current = this.root) {
+      const queue = []
+      const vals = []
+
+      if (current) {
+        queue.push(current)
+      }
+
+      while (queue.length > 0) {
+        const dequeNode = queue.shift()
+        vals.push(dequeNode.data)
+
+        if (dequeNode.left) {
+          queue.push(dequeNode.left)
+        }
+        if (dequeNode.right) {
+          queue.push(dequeNode.right)
+        }
+      }
+
+      return vals;
+    }
 
     /**
      * Recursively counts the total number of nodes in this tree.
-     * - Time: O(?).
-     * - Space: O(?).
-     * @param {Node} node The current node during the traversal of this tree.
+     * - Time: O(n) linear, n = number of nodes.
+     * - Space: O(h) linear due to the call stack.
+     * @param {BSTNode} node The current node during the traversal of this tree.
      * @returns {number} The total number of nodes.
      */
-    size(node = this.root) {}
+    size(node = this.root) {
+      if (!node) {
+        return 0;
+      }
+      // Translates into something like: 1 + 1 + 1 + 1 + 0 + 1 + 1 + 1 + 0
+      // instead of using a sum variable.
+      return 1 + this.size(node.left) + this.size(node.right);
+    }
+
+    /**
+     * Recursively counts the total number of nodes in this tree.
+     * - Time: O(n) linear, n = number of nodes.
+     * - Space: O(h) linear due to the call stack.
+     * @param {BSTNode} current The current node during the traversal of this tree.
+     * @param {number} total The current total as this tree is being traversed.
+     * @returns {number} The total number of nodes.
+     */
+    size2(current = this.root, total = 0) {
+      /**
+       * You have to be careful with primitive data types as parameters during
+       * recursion because they are not pass-by-reference so this means each
+       * recursive function call can have it's own separate copy of the total
+       * which is why total = this.size2(current.left, total); is needed because
+       * total++ is not updating it by reference.
+       */
+      if (current == null) {
+        return total;
+      }
+      total++;
+      total = this.size2(current.left, total);
+      total = this.size2(current.right, total);
+      return total;
+    }
 
     /**
      * Calculates the height of the tree which is based on how many nodes from
      * top to bottom (whichever side is taller).
-     * - Time: O(?).
-     * - Space: O(?).
-     * @param {Node} node The current node during traversal of this tree.
+     * - Time: O(n) linear, n = total number of nodes because to find out which
+     *    side is the tallest, must go down both sides.
+     * - Space: O(h) linear due to the call stack.
+     * @param {BSTNode} node The current node during traversal of this tree.
      * @returns {number} The height of the tree.
      */
-    height(node = this.root) {}
+    height(node = this.root) {
+      if (!node) {
+        return 0;
+      }
+      // base case returns 0 but then the + 1 starts incrementing for each recursive call
+      return 1 + Math.max(this.height(node.left), this.height(node.right));
+    }
 
     /**
      * Determines if this tree is a full tree. A full tree is a tree where every
      * node has both a left and a right except for the leaf nodes (last nodes)
-     * - Time: O(?).
-     * - Space: O(?).
-     * @param {Node} node The current node during traversal of this tree.
+     * - Time: O(n) linear, n = total number of nodes.
+     * - Space: O(h) linear due to the call stack.
+     * @param {BSTNode} node The current node during traversal of this tree.
      * @returns {boolean} Indicates if this tree is full.
      */
-    isFull(node = this.root) {}
+    isFull(node = this.root) {
+      // If empty tree
+      if (!node) {
+        return false;
+      }
+
+      // if leaf node, leaf node is the end which means it has no left or right
+      if (!node.left && !node.right) {
+        return true;
+      }
+
+      // if both left and right subtrees are not null and
+      // both left and right subtrees are full
+      if (node.left && node.right) {
+        return this.isFull(node.left) && this.isFull(node.right);
+      }
+      return false;
+    }
 
     /**
      * DFS Preorder: (CurrNode, Left, Right)
@@ -451,20 +528,22 @@ threeLevelTree.root.right.left = new BSTNode(13);
     4    12  18  24   31  44 66  90
 */
 /***************** Uncomment after insert method is created. ****************/
-// const fullTree = new BinarySearchTree();
-// fullTree
-//   .insert(25)
-//   .insert(15)
-//   .insert(10)
-//   .insert(22)
-//   .insert(4)
-//   .insert(12)
-//   .insert(18)
-//   .insert(24)
-//   .insert(50)
-//   .insert(35)
-//   .insert(70)
-//   .insert(31)
-//   .insert(44)
-//   .insert(66)
-//   .insert(90);
+const fullTree = new BinarySearchTree();
+fullTree
+  .insert(25)
+  .insert(15)
+  .insert(10)
+  .insert(22)
+  .insert(4)
+  .insert(12)
+  .insert(18)
+  .insert(24)
+  .insert(50)
+  .insert(35)
+  .insert(70)
+  .insert(31)
+  .insert(44)
+  .insert(66)
+  .insert(90);
+
+console.log(fullTree.toArrLevelorder())
