@@ -16,25 +16,60 @@ class MinHeap {
        */
       this.heap = [null];
     }
-  
+
     /**
-     * Retrieves the top (minimum number) in the heap without removing it.
-     * - Time: O(1) constant.
+     * Extracts the min num from the heap and then re-orders the heap to
+     * maintain order so the next min is ready to be extracted.
+     * 1. Save the first node to a temp var.
+     * 2. Pop last node off and set idx1 equal to the popped value.
+     * 3. Iteratively swap the old last node that is now at idx1 with it's
+     *    smallest child IF the smallest child is smaller than it.
+     * - Time: O(log n) logarithmic due to shiftDown.
      * - Space: O(1) constant.
-     * @returns {?number} Null if empty.
+     * @returns {?number} The min number or null if empty.
      */
-    top() {}
+    extract() {}
   
+    top() {
+        return this.heap.length > 1 ? this.heap[1] : null;
+    }
+
     /**
-     * Inserts a new number into the heap and maintains the heaps order.
-     * 1. Push new num to back then.
+     * Inserts a new number into the heap and reorders heap to maintain order.
+     * 1. Push new num to back.
      * 2. Iteratively swap the new num with it's parent while it is smaller than
      *    it's parent.
-     * - Time: O(log n) logarithmic due to shiftUp / iterative swapping.
+     * - Time: O(log n) logarithmic due to shiftUp.
      * - Space: O(1) constant.
      * @param {number} num The num to add.
      */
-    insert(num) {}
+    insert(num) {
+        this.heap.push(num);
+        this.shiftUp();
+        // .push on array returns the new length
+        return this.size();
+    }
+
+    // AKA: siftUp, heapifyUp, bubbleUp to restore order after insert
+    shiftUp() {
+        let idxOfNodeToShiftUp = this.heap.length - 1;
+
+        while (idxOfNodeToShiftUp > 1) {
+            const idxOfParent = this.idxOfParent(idxOfNodeToShiftUp);
+
+            const isParentSmallerOrEqual =
+            this.heap[idxOfParent] <= this.heap[idxOfNodeToShiftUp];
+
+            // Parent is supposed to be smaller so ordering is complete.
+            if (isParentSmallerOrEqual) {
+            break;
+            }
+
+            this.swap(idxOfNodeToShiftUp, idxOfParent);
+            // after swapping the node is at idxOfParent now.
+            idxOfNodeToShiftUp = idxOfParent;
+        }
+    }
   
     /**
      * Logs the tree horizontally with the root on the left and the index in
