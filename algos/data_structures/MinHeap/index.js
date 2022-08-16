@@ -18,6 +18,36 @@ class MinHeap {
     }
 
     /**
+     * @param {number} i
+     */
+    idxOfParent(i) {
+        return Math.floor(i / 2);
+    }
+
+    /**
+     * @param {number} i
+     */
+    idxOfLeftChild(i) {
+        return i * 2;
+    }
+
+    /**
+     * @param {number} i
+     */
+    idxOfRightChild(i) {
+        return i * 2 + 1;
+    }
+
+    /**
+     * Swaps two nodes.
+     * @param {number} i
+     * @param {number} j
+     */
+    swap(i, j) {
+        [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+    }
+
+    /**
      * Extracts the min num from the heap and then re-orders the heap to
      * maintain order so the next min is ready to be extracted.
      * 1. Save the first node to a temp var.
