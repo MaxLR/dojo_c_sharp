@@ -3,7 +3,7 @@
  * Follows a LIFO (Last In First Out) order where new items are stacked on
  * top (back of array) and removed items are removed from the top / back.
  */
- class Stack {
+class Stack {
     /**
      * The constructor is executed when instantiating a new Stack() to construct
      * a new instance.
@@ -56,6 +56,8 @@
     size() {}
 }
 
+
+//EXTRA
 class StackNode {
     constructor(data) {
         this.data = data;
