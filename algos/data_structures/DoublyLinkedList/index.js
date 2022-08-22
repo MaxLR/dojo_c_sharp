@@ -32,7 +32,7 @@ class DoublyLinkedList {
      * Executed when the new keyword is used to construct a new DoublyLInkedList
      * instance that inherits these methods and properties.
      */
-     constructor() {
+    constructor() {
         // The list is empty to start.
         /** @type {DLLNode|null} */
         this.head = null;
