@@ -139,10 +139,76 @@ const { BinaryHeap } = require("../BinaryHeap");
   
 class OrderSaleMaximizer {
     constructor() {
-        
+        this.total = 0
+
+        this.minSellOrders = new BinaryHeap(
+            (orderA, orderB) => orderA.price - orderB.price
+        )
+
+        this.maxBuyOrders = new BinaryHeap(
+            (orderA, orderB) => orderB.price - orderA.price
+        )
     }
-  
+
+
+    insertOrders(orders) {
+        for (const order of orders) {
+            if (order.action == "sell") {
+                this.minSellOrders.insert(order)
+            } else if (order.action == "buy") {
+                this.maxBuyOrders.insert(order)
+            }
+        }
+
+        return this.minSellOrders.size() + this.maxBuyOrders.size()
+    }
+
+    //matches highest buy to lowest sell & then processes when the sell price is less than or equal to buy price
+    processMatchingOrders() {
+        //save some time complexity so we don't remove & re-insert orders unnecessarily
+        let minSell = this.minSellOrders.top()
+        let maxBuy = this.maxBuyOrders.top()
+
+        // while sells & buys exist + prices match up
+        while (minSell && maxBuy && minSell.price <= maxBuy.price) {
+            const sameQuantity = minSell.quantity == maxBuy.quantity
+            const fewerSells = minSell.quantity < maxBuy.quantity
+            const fewerBuys = !fewerSells
+
+            if (sameQuantity) {
+                this.total += minSell.price * minSell.quantity
+                minSell.quantity = 0
+                maxBuy.quantity = 0
+                this.minSellOrders.extract()
+                this.maxBuyOrders.extract()
+            } else if (fewerSells) {
+                this.total += minSell.price * minSell.quantity
+                maxBuy.quantity -= minSell.quantity
+                minSell.quantity = 0
+                this.minSellOrders.extract()
+            } else if (fewerBuys) {
+                this.total += minSell.price * maxBuy.quantity
+                minSell.quantity -= maxBuy.quantity
+                maxBuy.quantity = 0
+                this.maxBuyOrders.extract()
+            }
+
+            minSell = this.minSellOrders.top()
+            maxBuy = this.maxBuyOrders.top()
+        }
+
+        return this.total
+    }
 }
+
+const newOrganizer = new OrderSaleMaximizer()
+newOrganizer.insertOrders(incomingOrders1)
+console.log(newOrganizer.processMatchingOrders())
+
+newOrganizer.insertOrders(incomingOrders2)
+console.log(newOrganizer.processMatchingOrders())
+console.log(newOrganizer)
+
   
 
 

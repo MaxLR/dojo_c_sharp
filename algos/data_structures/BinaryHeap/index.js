@@ -318,9 +318,9 @@ const heapOfScores = new BinaryHeap();
 
 /** @type {BinaryHeap<Person>} */
 /* youngest first: */
-const heapOfPeople = new BinaryHeap(
-  (personA, personB) => personA.age - personB.age
-);
+// const heapOfPeople = new BinaryHeap(
+//   (personA, personB) => personA.age - personB.age
+// );
 
 /* oldest first: */
 // const heapOfPeople = new BinaryHeap(
