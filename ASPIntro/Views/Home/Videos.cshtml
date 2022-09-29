@@ -1,8 +1,11 @@
-<h1>@ViewBag.Title</h1>
+@* Specify what kind of data is being passed into this view via the View Model *@
+@model VideosView
+
+<h1>@Model.Title</h1>
 
 <a href="/">Home</a>
 
-@foreach (string videoId in ViewBag.YoutubeVideoIds) {
+@foreach (string videoId in Model.YoutubeVideoIds) {
     <iframe
     width="560"
     height="400"

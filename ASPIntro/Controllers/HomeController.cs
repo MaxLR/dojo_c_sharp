@@ -1,3 +1,4 @@
+using ASPIntro.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -18,11 +19,13 @@ public class HomeController : Controller
     // easiest to default to IActionResult
     public IActionResult Videos()
     {
-        // These ids are from the end of youtube video URLs
-        List<string> youtubeVideoIds = new List<string>
-        {
-        "yT3_vLQ3jbM", "fbqHK8i-HdA", "CUe2ymg1RHs", "-rEIOkGCbo8", "KYgZPphIKQY", "GPdGeLAprdg", "eg9_ymCEAF8", "nHkUMkUFuBc", "QTwcvNdMFMI", "j6YK-qgt_TI", "Wvjsgb2nB4o", "GcKkiRl9_qE", "6avJHaC3C2U", "_mZBa3sqTrI"
-        };
+        // These ids are from the end of youtube video URLs (was moved to VideosView Model)
+        // List<string> youtubeVideoIds = new List<string>
+        // {
+        // "yT3_vLQ3jbM", "fbqHK8i-HdA", "CUe2ymg1RHs", "-rEIOkGCbo8", "KYgZPphIKQY", "GPdGeLAprdg", "eg9_ymCEAF8", "nHkUMkUFuBc", "QTwcvNdMFMI", "j6YK-qgt_TI", "Wvjsgb2nB4o", "GcKkiRl9_qE", "6avJHaC3C2U", "_mZBa3sqTrI"
+        // };
+
+        VideosView videoViewModel = new VideosView();
 
         /*
         Each controller method / 'action' has it's own ViewBag that is
@@ -32,10 +35,9 @@ public class HomeController : Controller
         that is returned from this method.
         */
 
-        ViewBag.YoutubeVideoIds = youtubeVideoIds;
-        ViewBag.Title = $"Here are {ViewBag.YoutubeVideoIds.Count} of my favorite Videos";
+        // ViewBag.Title = $"Here are {youtubeVideoIds.Count} of my favorite Videos";
 
-        return View("Videos");
+        return View("Videos", videoViewModel);
     }
 
     [HttpGet("{**path}")]

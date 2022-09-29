@@ -1,0 +1,16 @@
+@model User
+
+<h2>Register</h2>
+
+<form action="/submit-user" method="POST">
+  <div>
+    <label>First Name</label>
+    @* The name attr needs to match a prop name from the Model. *@
+    <input type="text" name="FirstName" />
+  </div>
+  <div>
+    <label>Last Name</label>
+    <input type="text" name="LastName" />
+  </div>
+  <button>Submit</button>
+</form>
