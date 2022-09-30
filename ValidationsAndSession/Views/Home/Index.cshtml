@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Log In/Register";
+}
+
+@model User
+
+<form asp-controller="Home" asp-action="Register" method="POST">
+    <div class="form-group">
+        <label asp-for="Username"></label>
+        <span asp-validation-for="Username" class="text-danger"></span>
+        <input asp-for="Username" class="form-control" />
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <input asp-for="ConfirmPassword" class="form-control" />
+    </div>
+
+  <button class="btn btn-outline-primary">Submit</button>
+</form>
