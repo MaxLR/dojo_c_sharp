@@ -1,0 +1,21 @@
+@model Post
+
+<a href="/posts">View All Posts</a>
+
+<h2>@Model.Topic</h2>
+<div>@Model.Body</div>
+@if(Model.ImgUrl != null)
+{
+    <div>@Model.ImgUrl</div>
+}
+
+<a href="/posts/@Model.PostId/edit">Edit</a>
+
+<form
+    asp-controller="Posts"
+    asp-action="DeletePost"
+    asp-route-deletedPostId="@Model.PostId"
+    method="POST"
+>
+    <button class="btn-outline-danger">Delete</button>
+</form>

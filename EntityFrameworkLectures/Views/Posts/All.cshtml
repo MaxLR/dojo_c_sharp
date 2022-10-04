@@ -1,0 +1,28 @@
+@model List<Post>
+
+<a href="/posts/new">Create a Post</a>
+
+<h2 class="text-center">All Posts</h2>
+<hr />
+
+@foreach (Post post in Model) {
+  <div class="card shadow rounded mx-auto w-75 mb-3">
+    <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+      @post.Topic
+    </h4>
+
+    <div class="card-body">
+      <p class="card-text">@post.Body</p>
+      <small class="text-muted"> Submitted on: @post.CreatedAt </small>
+    </div>
+    <a 
+        asp-controller="Posts"
+        asp-action="GetOnePost"
+        asp-route-onePostId="@post.PostId"
+        class="btn btn-outline-info"
+    >
+      View Details
+    </a>
+    <img src="@post.ImgUrl" alt="related to post." class="card-img-bottom" />
+  </div>
+}
