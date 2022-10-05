@@ -1,5 +1,8 @@
 @model List<Post>
 
+@Context.Session.GetInt32("UUID")
+@Context.Session.GetString("Username")
+
 <a href="/posts/new">Create a Post</a>
 
 <h2 class="text-center">All Posts</h2>

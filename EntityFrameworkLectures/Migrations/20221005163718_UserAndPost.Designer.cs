@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkLectures.Migrations
 {
     [DbContext(typeof(ForumContext))]
-    [Migration("20221004205044_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20221005163718_UserAndPost")]
+    partial class UserAndPost
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace EntityFrameworkLectures.Migrations
                 .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Post", b =>
+            modelBuilder.Entity("EntityFrameworkLectures.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
@@ -48,6 +48,31 @@ namespace EntityFrameworkLectures.Migrations
                     b.HasKey("PostId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("EntityFrameworkLectures.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
