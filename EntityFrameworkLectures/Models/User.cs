@@ -29,4 +29,14 @@ public class User
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    /**********************************************************************
+    Relationship properties below
+
+    Foreign Keys: id of a different (foreign) model.
+
+    Navigation props:
+        data type is a related model
+        MUST use .Include for the nav prop data to be included via a SQL JOIN.
+    **********************************************************************/
+    public List<Post> UserPosts { get; set; } = new List<Post>();
 }

@@ -1,0 +1,11 @@
+@model User
+
+<h3>@Model.Username</h3>
+
+@foreach (Post p in Model.UserPosts)
+{
+    <p>@p.Topic</p>
+    <p>@p.Body</p>
+    <p>@p.ImgUrl</p>
+    <br>
+}
