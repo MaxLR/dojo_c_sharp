@@ -12,4 +12,5 @@ public class ForumContext : DbContext
     // the "Posts" table name will come from the DbSet property name
     public DbSet<Post> Posts { get; set; } 
     public DbSet<User> Users { get; set; } 
+    public DbSet<UserPostLike> UserPostLikes { get; set; } 
 }
