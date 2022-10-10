@@ -7,7 +7,7 @@
  * - left child is located at: i * 2
  * - right child is located at: i * 2 + 1
  */
- class MinHeap {
+class MinHeap {
     constructor() {
       /**
        * 0th index not used, so null is a placeholder. Not using 0th index makes
