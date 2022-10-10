@@ -40,5 +40,27 @@ put the List<Post> into ViewBag
       View Details
     </a>
     <img src="@post.ImgUrl" alt="related to post." class="card-img-bottom" />
+    @{ bool alreadyLiked = post.PostLikes.Any(like => 
+      like.UserId == Context.Session.GetInt32("UUID")
+    ); }
+    <div class="card-footer text-center">
+      <form
+        asp-controller="Posts"
+        asp-action="Like"
+        asp-route-postId="@post.PostId"
+      >
+        <p>Likes: @post.PostLikes.Count</p>
+        <button class="btn btn-outline-info">
+          @if (alreadyLiked)
+          {
+            <span>Unlike</span>
+          }
+          else
+          {
+            <span>Like</span>
+          }
+        </button>
+      </form>
+    </div>
   </div>
 }
