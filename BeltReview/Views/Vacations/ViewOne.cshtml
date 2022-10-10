@@ -1,0 +1,31 @@
+@model Vacation
+
+<a href="/vacations">View All Vacations</a>
+
+<h2>@Model.Destination @Model.Planner.FullName</h2>
+<div>@Model.Details</div>
+<div>@Model.StartDate</div>
+
+
+@* conditionally show edit/delete if vacation was created by logged in user *@
+@if (Model.UserId == Context.Session.GetInt32("UUID"))
+{
+    <a href="/vacations/@Model.VacationId/edit">Edit</a>
+    <form
+        asp-controller="Vacations"
+        asp-action="DeleteVacation"
+        asp-route-deletedVacationId="@Model.VacationId"
+        method="POST"
+    >
+        <button class="btn-outline-danger">Delete</button>
+    </form>
+}
+
+<h3>Signed up Users</h3>
+@foreach (UserVacationSignup uvs in Model.VacationSignups)
+{
+    if(uvs.User != null)
+    {
+        <p>@uvs.User.FullName</p>
+    }
+}

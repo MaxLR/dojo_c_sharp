@@ -1,0 +1,35 @@
+@model Vacation
+
+<div class="container w-75 mx-auto">
+  <h2 class="text-center">New Vacation</h2>
+
+  <form
+    class="shadow p-3 rounded"
+    asp-controller="Vacations"
+    asp-action="Create"
+    method="POST"
+  >
+    <div class="mb-3">
+      <label asp-for="Destination"></label>
+      <span asp-validation-for="Destination" class="text-danger font-weight-bold" >
+      </span>
+      <input class="form-control" asp-for="Destination" />
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="Details"></label>
+      <span asp-validation-for="Details" class="text-danger font-weight-bold" >
+      </span>
+      <input class="form-control" asp-for="Details" />
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="StartDate"></label>
+      <span asp-validation-for="StartDate" class="text-danger font-weight-bold" >
+      </span>
+      <input class="form-control" asp-for="StartDate" />
+    </div>
+
+    <button class="btn btn-success">Submit</button>
+  </form>
+</div>
