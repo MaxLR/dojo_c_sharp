@@ -46,6 +46,27 @@ class MinHeap {
     swap(i, j) {
       [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
     }
+
+    /**
+     * Retrieves the size of the heap, ignoring the null placeholder.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
+     * @returns {number}
+     */
+    size() {
+      // - 1 since 0 index is unused
+      return this.heap.length - 1;
+    }
+
+    /**
+     * Retrieves the top (minimum number) in the heap without removing it.
+     * - Time: O(1) constant.
+     * - Space: O(1) constant.
+     * @returns {?number} Null if empty.
+     */
+    top() {
+      return this.heap.length > 1 ? this.heap[1] : null;
+    }
   
     /**
      * Inserts a new number into the heap and reorders heap to maintain order.
